@@ -1,8 +1,9 @@
-// Lambda שמגיש את אתר אקרטק ומקבל פניות מהטופס
+// Lambda שמגיש את אתר אקרטק ומקבל פניות מהטופס.
+// כל קבצי האתר נמצאים באותה תיקייה; הכתובת /css/style.css מגישה את style.css וכו'.
 import { readFile } from "node:fs/promises";
-import { join, normalize, extname } from "node:path";
+import { join, basename, extname } from "node:path";
 
-const ROOT = join(process.cwd(), "site");
+const ROOT = process.cwd();
 const TYPES = { ".html": "text/html; charset=utf-8", ".css": "text/css; charset=utf-8",
   ".js": "application/javascript; charset=utf-8", ".webp": "image/webp", ".png": "image/png",
   ".jpg": "image/jpeg", ".svg": "image/svg+xml", ".ico": "image/x-icon" };
@@ -31,22 +32,23 @@ async function contact(event) {
 
 export const handler = async (event) => {
   const method = event.requestContext?.http?.method || "GET";
-  let path = event.rawPath || "/";
+  const path = event.rawPath || "/";
   if (path === "/api/contact") return method === "POST" ? contact(event) : { statusCode: 405, body: "" };
   if (method !== "GET" && method !== "HEAD") return { statusCode: 405, body: "" };
-  if (path.endsWith("/")) path += "index.html";
-  if (!extname(path)) path += ".html";
-  const file = normalize(join(ROOT, path));
-  if (!file.startsWith(ROOT)) return { statusCode: 403, body: "" };
+
+  let name = basename(path) || "index.html";
+  if (!extname(name)) name += ".html";
+  const ext = extname(name);
+  if (!TYPES[ext]) return { statusCode: 404, body: "" };
   try {
-    const ext = extname(file), buf = await readFile(file);
+    const buf = await readFile(join(ROOT, name));
     const isText = TEXT.has(ext);
     return { statusCode: 200, isBase64Encoded: !isText,
-      headers: { "content-type": TYPES[ext] || "application/octet-stream",
+      headers: { "content-type": TYPES[ext],
                  "cache-control": ext === ".html" ? "public, max-age=300" : "public, max-age=86400" },
       body: isText ? buf.toString("utf8") : buf.toString("base64") };
   } catch {
-    const nf = await readFile(join(ROOT, "index.html"), "utf8");
-    return { statusCode: 404, headers: { "content-type": TYPES[".html"] }, body: nf };
+    const home = await readFile(join(ROOT, "index.html"), "utf8");
+    return { statusCode: 404, headers: { "content-type": TYPES[".html"] }, body: home };
   }
 };
