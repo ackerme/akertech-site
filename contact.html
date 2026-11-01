@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>צור קשר | אקרטק</title>
+<meta name="description" content="השאירו פרטים ונחזור אליכם, או כתבו לנו בוואטסאפ.">
+<link rel="icon" href="assets/logo.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<!-- ===== כותרת עליונה (משותפת לכל העמודים) ===== -->
+<header><div class="wrap nav">
+<a class="logo" href="index.html" aria-label="אקרטק"><img alt="אקרטק" width="186" height="40" src="assets/logo.webp"></a>
+<nav><a class="h" href="systems.html">מערכות מידע</a><a class="h" href="support.html">תמיכה טכנית</a><a class="h" href="index.html#clients">לקוחות</a><a class="btn" style="padding:8px 20px;color:#06263a" href="contact.html">צור קשר</a></nav>
+</div></header>
+
+<section><div class="wrap">
+<a class="back" href="index.html">→ חזרה לעמוד הראשי</a>
+<h1 class="pt">נשמח לשמוע מכם</h1><p class="sub">השאירו פרטים ונחזור אליכם, או כתבו לנו בוואטסאפ.</p>
+<form id="f">
+<input name="name" placeholder="שם מלא" required autocomplete="name">
+<input name="phone" type="tel" placeholder="טלפון" required autocomplete="tel" dir="rtl">
+<input name="email" type="email" placeholder="אימייל" required autocomplete="email" dir="rtl">
+<textarea name="message" rows="4" placeholder="איך נוכל לעזור?" required></textarea>
+<button class="btn" type="submit">שליחה</button>
+<div class="msg" id="msg" role="status"></div>
+</form></div></section>
+
+<!-- ===== כותרת תחתונה (משותפת לכל העמודים) ===== -->
+<footer>© <span id="y"></span> אקרטק. כל הזכויות שמורות.</footer>
+
+<a class="wa" id="wa" href="#" aria-label="שיחה בוואטסאפ" target="_blank" rel="noopener"><svg width="30" height="30" viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.1-1.3A10 10 0 1 0 12 2zm5.2 14.1c-.2.6-1.300 1.200-1.800 1.200-.5.100-1 .2-3.300-.7-2.800-1.100-4.500-3.900-4.700-4.100-.1-.2-1.100-1.500-1.100-2.800s.7-2 .9-2.300c.3-.3.600-.3.800-.3h.5c.2 0 .4 0 .6.500l.8 2c.1.200.1.300 0 .500l-.3.400-.4.500c-.1.100-.3.300-.1.600.2.300.8 1.300 1.700 2.100 1.200 1 2.100 1.300 2.400 1.500.3.100.5.100.6-.1l.9-1.100c.2-.3.400-.2.600-.1l1.900.9c.3.100.5.200.5.300.100.100.100.600-.1 1.200z"/></svg></a>
+
+<script src="js/config.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
