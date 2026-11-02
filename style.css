@@ -120,3 +120,49 @@ html.a11y-contrast .hero h1 span{background:none;color:#ffd400}
 /* אזור הלקוחות במרכז */
 #clients .wrap{text-align:center}
 #clients .logos{justify-content:center}
+/* קרוסלת לקוחות: זזה הצידה כל כמה שניות */
+.logos-viewport{overflow:hidden;margin-inline:auto;max-width:100%;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+#logos{display:flex;gap:20px;justify-content:center;direction:ltr;will-change:transform}
+#logos .lg.client{flex:0 0 220px;width:220px}
+#logos.moving{justify-content:flex-start}
+.logos-viewport.static{-webkit-mask-image:none;mask-image:none}
+.logos-viewport.static #logos{flex-wrap:wrap}
+@media(max-width:640px){#logos .lg.client{flex-basis:170px;width:170px}}
+/* ===== עיצוב 2: גופנים, אייקונים, כפתורים ופתיח ===== */
+body{font-family:'Assistant','Heebo',Arial,sans-serif;font-size:17px}
+h1,h2,.pt,.hero h1,.card h3,.svcbtn b,.panel h3.pt{font-family:'Secular One','Assistant',sans-serif;font-weight:400;letter-spacing:0}
+.hero h1{line-height:1.2}
+/* אייקונים בקו, על רקע עדין במקום ריבוע צבעוני */
+.ico{background:color-mix(in srgb,var(--teal) 14%,transparent);color:var(--blue);border-radius:12px}
+.ico svg{width:24px;height:24px}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .ico{color:var(--teal)}}
+.svcbtn b{display:flex;align-items:center;gap:10px}
+.svcbtn .si{display:grid;place-items:center;width:36px;height:36px;border-radius:10px;background:color-mix(in srgb,var(--teal) 14%,transparent);color:var(--blue);flex:none}
+/* כפתורים: צבע אחיד במקום מעבר צבע */
+.btn{background:var(--navy);color:#fff;box-shadow:0 6px 16px rgba(25,63,115,.18);transition:background .2s,transform .2s}
+.btn:hover{background:var(--blue);transform:translateY(-1px)}
+.nav-btn{padding:8px 20px;background:var(--teal);color:#06263a}
+.nav-btn:hover{background:#00b8c4;color:#06263a}
+.pk .btn{background:transparent;color:var(--navy);border:1.5px solid var(--navy);box-shadow:none}
+.pk .btn:hover{background:var(--navy);color:#fff}
+.pk.hot .btn{background:var(--navy);color:#fff}
+.tag{background:var(--teal)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .pk .btn{color:#fff;border-color:#fff}}
+html.a11y-contrast .btn{background:#ffd400 !important;color:#000 !important;border-color:#ffd400 !important}
+/* פתיח בשתי עמודות: טקסט ואיור */
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center}
+.hero-text h1{max-width:none}
+.hero-art{width:100%;max-width:440px;justify-self:center;color:var(--blue)}
+.hero-art .links{opacity:.45;animation:dash 1.6s linear infinite}
+.hero-art .node rect,.hero-art .node path{fill:var(--surface);stroke:var(--blue);stroke-width:2.2}
+.hero-art .led{fill:var(--teal);animation:blink 1.8s ease-in-out infinite}
+.hero-art .led.l2{animation-delay:.6s}.hero-art .led.l3{animation-delay:1.2s}
+.hero-art .pk circle{fill:var(--teal)}.hero-art .pk circle.b{fill:var(--blue)}
+@keyframes dash{to{stroke-dashoffset:-28}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+@media(max-width:900px){.hero-grid{grid-template-columns:1fr}.hero-art{display:none}}
+html.a11y-still .hero-art .pk{display:none}
+@media(prefers-reduced-motion:reduce){.hero-art .pk{display:none}.hero-art *{animation:none !important}}
+.hero-text{min-width:0}
+@media(max-width:900px){.hero-grid{display:block}}

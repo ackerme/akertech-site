@@ -56,6 +56,50 @@
   document.body.appendChild(panel); document.body.appendChild(btn);
   apply(); sync();
 
+  // ===== קרוסלת לקוחות: לוגו אחד זז הצידה כל 3 שניות =====
+  var track = document.getElementById("logos");
+  if (track) (function () {
+    var vp = track.parentNode, timer = 0, busy = false, paused = false;
+    function stillMode() {
+      return root.classList.contains("a11y-still") || (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
+    }
+    function step() {
+      if (busy || paused || document.hidden) return;
+      var first = track.firstElementChild; if (!first) return;
+      var gap = parseFloat(getComputedStyle(track).columnGap) || 20;
+      busy = true;
+      track.style.transition = "transform .8s ease";
+      track.style.transform = "translateX(" + (-(first.offsetWidth + gap)) + "px)";
+      setTimeout(function () {
+        track.style.transition = "none"; track.appendChild(first); track.style.transform = "none";
+        void track.offsetWidth; busy = false;
+      }, 820);
+    }
+    var originals = Array.prototype.slice.call(track.children);
+    function setup() {
+      clearInterval(timer); track.style.transition = "none"; track.style.transform = "none";
+      // מסדרים מחדש: רק המקוריים, בסדר המקורי
+      Array.prototype.slice.call(track.querySelectorAll("[data-clone]")).forEach(function (n) { n.remove(); });
+      originals.forEach(function (n) { track.appendChild(n); });
+      var still = stillMode();
+      vp.classList.toggle("static", still);
+      track.classList.toggle("moving", !still);
+      if (still || originals.length < 2) return;
+      // משכפלים את הלוגואים עד שהשורה רחבה מהמסך, כדי שהתנועה תהיה רציפה
+      var guard = 0;
+      while (track.scrollWidth < vp.clientWidth * 2 && guard++ < 10)
+        originals.forEach(function (n) { var c = n.cloneNode(true); c.setAttribute("data-clone", ""); c.setAttribute("aria-hidden", "true"); track.appendChild(c); });
+      timer = setInterval(step, 3000);
+    }
+    vp.addEventListener("mouseenter", function () { paused = true; });
+    vp.addEventListener("mouseleave", function () { paused = false; });
+    vp.addEventListener("focusin", function () { paused = true; });
+    vp.addEventListener("focusout", function () { paused = false; });
+    var rt; addEventListener("resize", function () { clearTimeout(rt); rt = setTimeout(setup, 200); });
+    new MutationObserver(setup).observe(root, { attributes: true, attributeFilter: ["class"] });
+    if (document.readyState === "complete") setup(); else addEventListener("load", setup);
+  })();
+
   // טופס יצירת קשר (רק בעמוד contact.html)
   var f = document.getElementById("f"), msg = document.getElementById("msg");
   if (!f) return;
