@@ -56,29 +56,29 @@
   document.body.appendChild(panel); document.body.appendChild(btn);
   apply(); sync();
 
-  // ===== קרוסלת לקוחות: לוגו אחד זז הצידה כל 3 שניות =====
+  // ===== קרוסלת לקוחות: תנועה איטית ורציפה הצידה =====
   var track = document.getElementById("logos");
   if (track) (function () {
-    var vp = track.parentNode, timer = 0, busy = false, paused = false;
+    var vp = track.parentNode, raf = 0, last = 0, offset = 0, paused = false, running = false;
+    var SPEED = 35; // פיקסלים בשנייה
+    var originals = Array.prototype.slice.call(track.children);
     function stillMode() {
       return root.classList.contains("a11y-still") || (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
     }
-    function step() {
-      if (busy || paused || document.hidden) return;
-      var first = track.firstElementChild; if (!first) return;
-      var gap = parseFloat(getComputedStyle(track).columnGap) || 20;
-      busy = true;
-      track.style.transition = "transform .8s ease";
-      track.style.transform = "translateX(" + (-(first.offsetWidth + gap)) + "px)";
-      setTimeout(function () {
-        track.style.transition = "none"; track.appendChild(first); track.style.transform = "none";
-        void track.offsetWidth; busy = false;
-      }, 820);
+    function gap() { return parseFloat(getComputedStyle(track).columnGap) || 20; }
+    function tick(now) {
+      if (!running) return;
+      var dt = last ? Math.min((now - last) / 1000, 0.1) : 0; last = now;
+      if (!paused && !document.hidden) {
+        offset += SPEED * dt;
+        var first = track.firstElementChild, w = first.offsetWidth + gap();
+        if (offset >= w) { track.appendChild(first); offset -= w; }
+        track.style.transform = "translateX(" + (-offset) + "px)";
+      }
+      raf = requestAnimationFrame(tick);
     }
-    var originals = Array.prototype.slice.call(track.children);
     function setup() {
-      clearInterval(timer); track.style.transition = "none"; track.style.transform = "none";
-      // מסדרים מחדש: רק המקוריים, בסדר המקורי
+      running = false; cancelAnimationFrame(raf); offset = 0; last = 0; track.style.transform = "none";
       Array.prototype.slice.call(track.querySelectorAll("[data-clone]")).forEach(function (n) { n.remove(); });
       originals.forEach(function (n) { track.appendChild(n); });
       var still = stillMode();
@@ -89,12 +89,13 @@
       var guard = 0;
       while (track.scrollWidth < vp.clientWidth * 2 && guard++ < 10)
         originals.forEach(function (n) { var c = n.cloneNode(true); c.setAttribute("data-clone", ""); c.setAttribute("aria-hidden", "true"); track.appendChild(c); });
-      timer = setInterval(step, 3000);
+      running = true; raf = requestAnimationFrame(tick);
     }
     vp.addEventListener("mouseenter", function () { paused = true; });
-    vp.addEventListener("mouseleave", function () { paused = false; });
+    vp.addEventListener("mouseleave", function () { paused = false; last = 0; });
     vp.addEventListener("focusin", function () { paused = true; });
-    vp.addEventListener("focusout", function () { paused = false; });
+    vp.addEventListener("focusout", function () { paused = false; last = 0; });
+    document.addEventListener("visibilitychange", function () { last = 0; });
     var rt; addEventListener("resize", function () { clearTimeout(rt); rt = setTimeout(setup, 200); });
     new MutationObserver(setup).observe(root, { attributes: true, attributeFilter: ["class"] });
     if (document.readyState === "complete") setup(); else addEventListener("load", setup);
