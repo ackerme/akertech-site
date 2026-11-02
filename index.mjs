@@ -57,9 +57,25 @@ async function contact(event) {
   return { statusCode: 200, headers: { "content-type": "application/json" }, body: '{"ok":true}' };
 }
 
+// קבצים לגוגל: robots.txt ו-sitemap.xml
+const SITE = "https://akertech.co.il";
+const PAGES = ["/", "/systems.html", "/support.html", "/contact.html", "/accessibility.html", "/privacy.html"];
+function seo(path) {
+  if (path === "/robots.txt")
+    return { statusCode: 200, headers: { "content-type": "text/plain; charset=utf-8" },
+      body: `User-agent: *\nAllow: /\nDisallow: /api/\n\nSitemap: ${SITE}/sitemap.xml\n` };
+  if (path === "/sitemap.xml") {
+    const urls = PAGES.map(p => `  <url><loc>${SITE}${p}</loc><priority>${p === "/" ? "1.0" : "0.7"}</priority></url>`).join("\n");
+    return { statusCode: 200, headers: { "content-type": "application/xml; charset=utf-8" },
+      body: `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n` };
+  }
+  return null;
+}
+
 export const handler = async (event) => {
   const method = event.requestContext?.http?.method || "GET";
   const path = event.rawPath || "/";
+  const s = seo(path); if (s) return s;
   if (path === "/api/contact") return method === "POST" ? contact(event) : { statusCode: 405, body: "" };
   if (method !== "GET" && method !== "HEAD") return { statusCode: 405, body: "" };
 
