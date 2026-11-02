@@ -104,3 +104,13 @@ html.a11y-still *{animation:none !important;transition:none !important;scroll-be
 .alt{background:color-mix(in srgb,var(--surface) 72%,transparent)}
 .hero{background:linear-gradient(160deg,rgba(25,63,115,.93),rgba(45,105,158,.88))}
 .card{backdrop-filter:blur(2px)}
+/* פתיח בהיר: הרקע המונפש נראה דרכו */
+.hero{background:linear-gradient(160deg,color-mix(in srgb,var(--surface) 55%,transparent),color-mix(in srgb,var(--bg) 25%,transparent));color:var(--text);border-bottom:1px solid var(--line)}
+.hero h1{color:var(--navy)}
+.hero h1 span{background:linear-gradient(90deg,#2d699e,#00b3c0);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:var(--text);opacity:.85}
+.svcbtn{color:var(--text);background:color-mix(in srgb,var(--surface) 85%,transparent);border:1.5px solid var(--line);box-shadow:0 6px 18px rgba(25,63,115,.08);backdrop-filter:blur(3px)}
+.svcbtn:hover{background:var(--surface);border-color:var(--teal)}
+.svcbtn small{color:var(--muted);opacity:1}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .hero h1{color:#fff}}
+html.a11y-contrast .hero h1 span{background:none;color:#ffd400}
