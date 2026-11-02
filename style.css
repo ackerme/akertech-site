@@ -5,7 +5,7 @@ box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:en
 html{scroll-padding-top:env(safe-area-inset-top,0px)}.back{display:inline-block;margin-bottom:22px;color:var(--blue);font-weight:700;text-decoration:none}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--text);font-family:'Heebo',Arial,sans-serif;line-height:1.7}
-.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+.wrap{max-width:1240px;margin:0 auto;padding:0 clamp(16px,3vw,40px)}
 header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surface);border-bottom:1px solid var(--line)}
 .nav{display:flex;align-items:center;justify-content:space-between;height:64px}
 .logo{display:flex;align-items:center}.logo img{height:40px;width:auto;background:#fff;border-radius:8px;padding:3px 8px}
@@ -30,7 +30,7 @@ section{padding:72px 0}
 h2{font-size:clamp(26px,4vw,36px);color:var(--navy);margin:0 0 8px;font-weight:800}
 @media(prefers-color-scheme:dark){h2{color:#fff}}
 .sub{color:var(--muted);margin:0 0 36px}
-.grid{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(250px,1fr))}
+.grid{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:26px}
 .ico{width:46px;height:46px;border-radius:12px;background:var(--grad);display:grid;place-items:center;margin-bottom:14px;font-size:22px}
 .card h3{margin:0 0 6px;font-size:19px}
@@ -56,3 +56,15 @@ a.svcbtn{text-decoration:none}
 .pt{font-size:clamp(24px,4vw,34px);margin:0 0 4px;color:var(--navy);font-weight:800}
 @media(prefers-color-scheme:dark){.pt{color:#fff}}
 .back{margin-top:0}
+
+/* התאמה לרזולוציות */
+.card{display:flex;flex-direction:column}
+@media(min-width:641px) and (max-width:1099px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){.grid{grid-template-columns:1fr}.btn{padding:12px 22px}}
+@media(min-width:1600px){body{font-size:17px}.wrap{max-width:1400px}.card{padding:30px}.hero h1{max-width:860px}.hero p{max-width:720px}}
+@media(min-width:2200px){body{font-size:19px}.wrap{max-width:1680px}.logo img{height:48px}.nav{height:76px}}
+footer a{color:#fff;text-decoration:none;font-weight:700}
+.phone{display:inline-block;margin-top:6px;color:var(--blue);font-weight:700;text-decoration:none;font-size:18px}
+a[href^="tel:"]{direction:ltr;unicode-bidi:isolate}
+body{min-height:100vh;display:flex;flex-direction:column}
+footer{margin-top:auto}
