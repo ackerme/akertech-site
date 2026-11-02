@@ -99,3 +99,8 @@ html.a11y-font body,html.a11y-font input,html.a11y-font textarea,html.a11y-font 
 html.a11y-still *{animation:none !important;transition:none !important;scroll-behavior:auto !important}
 @media(max-width:640px){.a11y-panel{inset-inline:16px;width:auto}}
 .doc h2{font-size:22px;margin:28px 0 8px}.doc p,.doc li{max-width:820px}
+/* רקע מונפש */
+.net-bg{position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
+.alt{background:color-mix(in srgb,var(--surface) 72%,transparent)}
+.hero{background:linear-gradient(160deg,rgba(25,63,115,.93),rgba(45,105,158,.88))}
+.card{backdrop-filter:blur(2px)}
