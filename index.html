@@ -11,11 +11,13 @@
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+<a class="skip" href="#main">דלג לתוכן הראשי</a>
 <!-- ===== כותרת עליונה (משותפת לכל העמודים) ===== -->
 <header><div class="wrap nav">
 <a class="logo" href="index.html" aria-label="אקרטק"><img alt="אקרטק" width="186" height="40" src="assets/logo.webp"></a>
-<nav><a class="h" href="systems.html">מערכות מידע</a><a class="h" href="support.html">תמיכה טכנית</a><a class="h" href="index.html#clients">לקוחות</a><a class="btn" style="padding:8px 20px;color:#06263a" href="contact.html">צור קשר</a></nav>
+<nav aria-label="ניווט ראשי"><a class="h" href="systems.html">מערכות מידע</a><a class="h" href="support.html">תמיכה טכנית</a><a class="h" href="index.html#clients">לקוחות</a><a class="btn" style="padding:8px 20px;color:#06263a" href="contact.html">צור קשר</a></nav>
 </div></header>
+<main id="main">
 
 <!-- ===== פתיח ===== -->
 <div class="hero"><svg class="arc" viewBox="0 0 400 400" fill="none"><circle cx="60" cy="340" r="26" fill="#fff"/><path d="M40 200a160 160 0 0 1 160 160" stroke="#00d1d1" stroke-width="22" stroke-linecap="round"/><path d="M40 90a270 270 0 0 1 270 270" stroke="#fff" stroke-width="22" stroke-linecap="round"/></svg>
@@ -29,14 +31,15 @@
 <a class="btn" style="margin-top:22px" href="contact.html">צור קשר</a>
 </div></div>
 
-<!-- ===== לוגואים של לקוחות: להחליף ריבועים בתמונות מתוך assets/clients/ ===== -->
+<!-- ===== לוגואים של לקוחות: כל לקוח = div class="lg client" עם תמונה ===== -->
 <section id="clients" class="alt"><div class="wrap">
 <h2>לקוחות שסומכים עלינו</h2><p class="sub">ארגונים שבחרו באקרטק.</p>
-<div class="logos"><div class="lg">לוגו לקוח</div><div class="lg">לוגו לקוח</div><div class="lg">לוגו לקוח</div><div class="lg">לוגו לקוח</div><div class="lg">לוגו לקוח</div></div>
+<div class="logos"><div class="lg client"><img src="assets/clients/avigail.webp" alt="Avigail Wig Repair" width="432" height="290" loading="lazy"></div></div>
 </div></section>
 
+</main>
 <!-- ===== כותרת תחתונה (משותפת לכל העמודים) ===== -->
-<footer>© <span id="y"></span> אקרטק. כל הזכויות שמורות. · טלפון: <a href="tel:+972522521520" dir="ltr">052-252-1520</a></footer>
+<footer>© <span id="y"></span> אקרטק. כל הזכויות שמורות. · טלפון: <a href="tel:+972522521520" dir="ltr">052-252-1520</a><br><a href="accessibility.html">הצהרת נגישות</a> · <a href="privacy.html">מדיניות פרטיות ועוגיות</a></footer>
 
 <a class="wa" id="wa" href="#" aria-label="שיחה בוואטסאפ" target="_blank" rel="noopener"><svg width="30" height="30" viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.1-1.3A10 10 0 1 0 12 2zm5.2 14.1c-.2.6-1.300 1.200-1.800 1.200-.5.100-1 .2-3.300-.7-2.800-1.100-4.500-3.900-4.700-4.100-.1-.2-1.100-1.500-1.100-2.800s.7-2 .9-2.300c.3-.3.600-.3.800-.3h.5c.2 0 .4 0 .6.500l.8 2c.1.200.1.300 0 .500l-.3.400-.4.500c-.1.100-.3.300-.1.600.2.300.8 1.300 1.700 2.100 1.200 1 2.100 1.300 2.400 1.500.3.100.5.100.6-.1l.9-1.100c.2-.3.400-.2.600-.1l1.900.9c.3.100.5.200.5.300.100.100.100.600-.1 1.200z"/></svg></a>
 

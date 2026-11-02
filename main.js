@@ -8,6 +8,54 @@
   var y = document.getElementById("y");
   if (y) y.textContent = new Date().getFullYear();
 
+  // אחסון מקומי בטוח (עלול להיחסם בגלישה פרטית)
+  function get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+
+  // ===== באנר עוגיות =====
+  if (!get("cookie-ok")) {
+    var c = document.createElement("div");
+    c.className = "cookie"; c.setAttribute("role", "region"); c.setAttribute("aria-label", "הודעת עוגיות");
+    c.innerHTML = '<p>האתר משתמש בעוגיות ובאחסון מקומי לצורך תפקוד תקין ושמירת העדפות. ' +
+      '<a href="privacy.html">למידע נוסף</a></p><button class="btn" type="button">הבנתי</button>';
+    c.querySelector("button").addEventListener("click", function () { set("cookie-ok", "1"); c.remove(); });
+    document.body.appendChild(c);
+  }
+
+  // ===== תפריט נגישות =====
+  var root = document.documentElement;
+  var modes = [["a11y-contrast", "ניגודיות גבוהה"], ["a11y-links", "הדגשת קישורים"], ["a11y-font", "גופן קריא"], ["a11y-still", "עצירת אנימציות"]];
+  var saved = {}; try { saved = JSON.parse(get("a11y") || "{}") || {}; } catch (e) {}
+  function apply() {
+    modes.forEach(function (m) { root.classList.toggle(m[0], !!saved[m[0]]); });
+    document.body.style.zoom = saved.zoom ? String(saved.zoom) : "";
+  }
+  function save() { set("a11y", JSON.stringify(saved)); apply(); sync(); }
+  var btn = document.createElement("button");
+  btn.className = "a11y-btn"; btn.type = "button";
+  btn.setAttribute("aria-label", "תפריט נגישות"); btn.setAttribute("aria-expanded", "false"); btn.setAttribute("aria-controls", "a11y-panel");
+  btn.innerHTML = '<svg width="28" height="28" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><circle cx="12" cy="4" r="2"/><path d="M19 8.5c0 .6-.4 1-1 1.1l-4 .5v3.4l1.9 6.1c.2.6-.2 1.2-.7 1.3-.5.2-1.1-.1-1.3-.7L12 15h-.1l-1.8 5.2c-.2.6-.8.9-1.3.7-.5-.1-.9-.7-.7-1.3L10 13.5v-3.4l-4-.5c-.6-.1-1-.5-1-1.1 0-.6.5-1 1.1-1l5.9.5 5.9-.5c.6 0 1.1.4 1.1 1z"/></svg>';
+  var panel = document.createElement("div");
+  panel.className = "a11y-panel"; panel.id = "a11y-panel"; panel.hidden = true;
+  panel.setAttribute("role", "dialog"); panel.setAttribute("aria-label", "תפריט נגישות");
+  var html = '<h2>נגישות</h2><button type="button" data-z="1">הגדלת טקסט</button><button type="button" data-z="-1">הקטנת טקסט</button>';
+  modes.forEach(function (m) { html += '<button type="button" aria-pressed="false" data-m="' + m[0] + '">' + m[1] + '</button>'; });
+  html += '<button type="button" data-reset="1">איפוס הגדרות</button><a href="accessibility.html">הצהרת נגישות</a>';
+  panel.innerHTML = html;
+  function sync() { panel.querySelectorAll("[data-m]").forEach(function (b) { b.setAttribute("aria-pressed", saved[b.dataset.m] ? "true" : "false"); }); }
+  panel.addEventListener("click", function (e) {
+    var b = e.target.closest("button"); if (!b) return;
+    if (b.dataset.z) { var z = Math.round(((saved.zoom || 1) + 0.1 * Number(b.dataset.z)) * 10) / 10; saved.zoom = Math.min(1.6, Math.max(0.9, z)); if (saved.zoom === 1) delete saved.zoom; }
+    else if (b.dataset.m) { saved[b.dataset.m] = !saved[b.dataset.m]; }
+    else if (b.dataset.reset) { saved = {}; }
+    save();
+  });
+  function toggle(open) { panel.hidden = !open; btn.setAttribute("aria-expanded", open ? "true" : "false"); if (open) panel.querySelector("button").focus(); }
+  btn.addEventListener("click", function () { toggle(panel.hidden); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !panel.hidden) { toggle(false); btn.focus(); } });
+  document.body.appendChild(panel); document.body.appendChild(btn);
+  apply(); sync();
+
   // טופס יצירת קשר (רק בעמוד contact.html)
   var f = document.getElementById("f"), msg = document.getElementById("msg");
   if (!f) return;
@@ -18,7 +66,7 @@
 
   f.addEventListener("submit", async function (e) {
     e.preventDefault();
-    var d = { name: f.name.value.trim(), phone: f.phone.value.trim(), email: f.email.value.trim(), message: f.message.value.trim() };
+    var d = { name: f.name.value.trim(), phone: f.phone.value.trim(), email: f.email.value.trim(), message: f.message.value.trim(), website: f.website ? f.website.value : "" };
     msg.style.color = ""; msg.textContent = "שולח...";
     try {
       if (!S.formEndpoint) throw new Error("no endpoint");
