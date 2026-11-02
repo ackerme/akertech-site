@@ -72,7 +72,7 @@ export const handler = async (event) => {
     const isText = TEXT.has(ext);
     return { statusCode: 200, isBase64Encoded: !isText,
       headers: { "content-type": TYPES[ext],
-                 "cache-control": ext === ".html" ? "public, max-age=300" : "public, max-age=86400" },
+                 "cache-control": [".webp", ".png", ".jpg", ".svg", ".ico"].includes(ext) ? "public, max-age=86400" : "public, max-age=300" },
       body: isText ? buf.toString("utf8") : buf.toString("base64") };
   } catch {
     const home = await readFile(join(ROOT, "index.html"), "utf8");
