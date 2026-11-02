@@ -114,3 +114,6 @@ html.a11y-still *{animation:none !important;transition:none !important;scroll-be
 .svcbtn small{color:var(--muted);opacity:1}
 @media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .hero h1{color:#fff}}
 html.a11y-contrast .hero h1 span{background:none;color:#ffd400}
+.lg.client.full{padding:6px;background:linear-gradient(180deg,#394260,#595463)}
+.lg.client.full img{object-fit:contain;border-radius:0}
+.lg.client{display:block}.lg.client img{display:block}
