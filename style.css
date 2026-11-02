@@ -166,3 +166,11 @@ html.a11y-still .hero-art .pk{display:none}
 @media(prefers-reduced-motion:reduce){.hero-art .pk{display:none}.hero-art *{animation:none !important}}
 .hero-text{min-width:0}
 @media(max-width:900px){.hero-grid{display:block}}
+/* כפתורי השירותים: אייקון למעלה בקו אחד, בלי הפרשי גובה */
+.svcbtn b{align-items:flex-start;line-height:1.35}
+.svcbtn .si{margin-top:-4px}
+.svcbtn b > span:last-child{padding-top:6px}
+.svcbtn small{padding-inline-start:46px}
+.nw{white-space:nowrap}
+.hero .cta{max-width:none}
+.svcbtn b{font-size:18px}
