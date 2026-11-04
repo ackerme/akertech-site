@@ -198,3 +198,7 @@ html.a11y-still .hero-art .pk{display:none}
 @media(prefers-reduced-motion:reduce){.send-anim .env{display:none}.send-anim .ok{opacity:1;transform:none}}
 html.a11y-still .send-anim .env{display:none}
 .send-anim svg{transform:scaleX(-1)}
+
+.wa-text{color:#128c4a;font-weight:700;text-decoration:underline;text-underline-offset:3px}
+.wa-text:hover{color:#25d366}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .wa-text{color:#4ade80}}
