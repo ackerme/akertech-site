@@ -76,13 +76,21 @@
 .akt-film .err{opacity:0}.on .err{animation:err 2.8s ease-out 1.6s infinite}
 @keyframes err{0%{opacity:0;transform:scale(.8)}10%,80%{opacity:1;transform:none}100%{opacity:0}}
 .akt-film .err{transform-box:fill-box;transform-origin:center}
+.akt-film.dark{background:linear-gradient(135deg,rgba(255,255,255,.12),rgba(255,255,255,.03));border-color:rgba(255,255,255,.14);box-shadow:0 24px 60px rgba(0,0,0,.45),0 1px 0 rgba(255,255,255,.12) inset}
+.akt-film.dark .akt-stage{background:#0d1728}
+.akt-film.dark::after{background:linear-gradient(160deg,rgba(255,255,255,.08),transparent 40%)}
+.akt-film.ended .akt-prog{opacity:0;transition:opacity .4s}
+.akt-ctrl button[hidden]{display:none}
 .akt-film.paused *{animation-play-state:paused!important}
 @media(prefers-reduced-motion:reduce){.akt-film *{animation:none!important;transition:none!important}.bub,.li,.zoomin{opacity:1;transform:none}}
 
-/* שילוב בפתיח של האתר: הסרטון גדול יותר */
-.hero-grid:has(.akt-film){grid-template-columns:1fr 1.1fr;gap:40px}
-.hero-grid:has(.akt-film) h1{font-size:clamp(32px,3.6vw,50px)}
-.hero-grid:has(.akt-film) .hero-text > p{font-size:18px}
-.hero-grid .akt-film{width:100%;max-width:700px;justify-self:center}
+/* שילוב בפתיח של האתר */
+.hero-grid:has(.akt-film){grid-template-columns:1fr 1.15fr;gap:44px}
+.hero-grid:has(.akt-film) h1{font-size:clamp(32px,3.8vw,54px)}
+.hero-grid .akt-film{width:100%;max-width:720px;justify-self:center}
 @media(max-width:900px){.hero-grid .akt-film{display:block;margin:26px auto 0}}
 html.a11y-still .akt-film *{animation:none!important}
+/* כרטיסי השירותים מתחת לפתיח */
+.svc-strip{padding:28px 0 8px}
+.svc-strip .cta{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;max-width:none}
+@media(max-width:700px){.svc-strip .cta{grid-template-columns:1fr}}
