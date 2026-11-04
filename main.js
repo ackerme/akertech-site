@@ -113,6 +113,18 @@
     e.preventDefault();
     var d = { name: f.name.value.trim(), phone: f.phone.value.trim(), email: f.email.value.trim(), message: f.message.value.trim(), website: f.website ? f.website.value : "" };
     msg.style.color = ""; msg.textContent = "שולח...";
+    // אנימציה: מעטפה עפה אל המחשב
+    var anim = document.getElementById("sendAnim");
+    if (!anim) {
+      anim = document.createElement("div"); anim.id = "sendAnim"; anim.className = "send-anim"; anim.setAttribute("aria-hidden", "true");
+      anim.innerHTML = '<svg viewBox="0 0 320 120"><path class="trail" d="M40 86 Q150 -10 252 52" fill="none" stroke-width="2.5" stroke-dasharray="4 7"/>' +
+        '<g class="pc"><rect x="226" y="30" width="72" height="50" rx="6"/><rect class="scr" x="232" y="36" width="60" height="38" rx="3"/><path d="M256 80h12l3 12h-18z"/><rect x="246" y="92" width="32" height="4" rx="2"/>' +
+        '<g class="ok"><circle cx="262" cy="55" r="11"/><path d="M256 55l4 4 8-8" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></g></g>' +
+        '<g class="env"><rect x="-22" y="-15" width="44" height="30" rx="4"/><path d="M-22 -13l22 16 22-16" fill="none" stroke-width="2.5" stroke-linejoin="round"/></g></svg>';
+      msg.parentNode.insertBefore(anim, msg);
+    }
+    anim.classList.remove("done", "fail"); void anim.offsetWidth; anim.classList.add("go");
+    var minWait = new Promise(function (r) { setTimeout(r, 1500); });
     try {
       if (!S.formEndpoint) throw new Error("no endpoint");
       var res = await fetch(S.formEndpoint, {
@@ -121,9 +133,11 @@
         body: JSON.stringify(d)
       });
       if (!res.ok) throw new Error("bad status");
+      await minWait; anim.classList.add("done");
       f.reset(); msg.style.color = "#0a8f8f";
       msg.textContent = "תודה! הפנייה התקבלה ונחזור אליכם בהקדם.";
     } catch (err) {
+      anim.classList.remove("go"); anim.classList.add("fail");
       msg.style.color = "#b3261e";
       msg.innerHTML = 'אפשר לשלוח את הפנייה ישירות ב<a href="' +
         waLink("שלום, שמי " + d.name + ". " + d.message + " (טלפון: " + d.phone + ")") +

@@ -110,7 +110,7 @@
   }
 
   function frame(now) {
-    var C = colors(), t = (now - t0) / 1000, moving = !(still.matches || root.classList.contains("a11y-still"));
+    var C = colors(), t = (now - t0) / 1000, moving = !(still.matches || root.classList.contains("a11y-still") || document.getElementById("aktFilm"));
     ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, cv.width, cv.height);
     if (staticLayer) ctx.drawImage(staticLayer, 0, 0);
     ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
