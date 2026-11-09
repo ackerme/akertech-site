@@ -5,14 +5,12 @@
   /* ---------- דמות ---------- */
   function person(o) {
     var skin = "#f1c9a1", hair = o.hair || "#4a3426";
-    var beard = o.beard === "short"
-      ? '<path d="M30 54q4 18 20 20 16-2 20-20-6 8-20 8t-20-8z" fill="' + hair + '"/>'
-      : '<path d="M27 50q1 28 23 30 22-2 23-30-6 12-23 12t-23-12z" fill="' + hair + '"/>';
+    var beard = ''; // אותו איש חמוד, בלי זקן
     // שיער: רק בצדדים (פאות), הכיפה יושבת למעלה – כיפה אחת בלבד
-    var sides = '<path d="M26 46q-2-14 5-22l3 2q-4 8-3 20z" fill="' + hair + '"/><path d="M74 46q2-14-5-22l-3 2q4 8 3 20z" fill="' + hair + '"/>';
-    var kippa = o.kippa === "knit"
-      ? '<path d="M33 22a17 9 0 0 1 34 0q-17-5-34 0z" fill="#2f5f93"/><path d="M37 19.5q13-4 26 0" stroke="#fff" stroke-width="1.4" stroke-dasharray="2 2" fill="none"/>'
-      : '<path d="M33 22a17 9 0 0 1 34 0q-17-5-34 0z" fill="#141414"/>';
+    // שיער מלא עם צ'ופ (בלי כיפה)
+    var sides = '<path d="M26 33q0-20 24-21 24 1 24 21-5-8-24-8t-24 8z" fill="' + hair + '"/>' +
+      '<path d="M74 28C70 14 52 10 38 16 30 20 26 28 30 38 32 42 35 44 37 45 37 37 41 31 49 28 58 25 67 25 74 28Z" fill="' + hair + '"/>';
+    var kippa = '';
     var calm = o.mood === "calm";
     var eyes = calm
       ? '<path d="M38 44q4-4 8 0M54 44q4-4 8 0" stroke="#1d1d1d" stroke-width="2.4" fill="none" stroke-linecap="round"/>'
@@ -20,7 +18,7 @@
     var mouth = calm
       ? '<path d="M43 58q7 6 14 0" fill="none" stroke="#7a2e2e" stroke-width="2.4" stroke-linecap="round"/>'
       : '<path d="M44 60q6-5 12 0" fill="none" stroke="#1d1d1d" stroke-width="2.2" stroke-linecap="round"/>';
-    var glasses = o.glasses ? '<g fill="none" stroke="#333" stroke-width="1.8"><circle cx="42" cy="43" r="7"/><circle cx="58" cy="43" r="7"/><path d="M49 43h2"/></g>' : "";
+    var glasses = '<g fill="none" stroke="' + (o.gc || "#333") + '" stroke-width="2.2"><circle cx="42" cy="43" r="7"/><circle cx="58" cy="43" r="7"/><path d="M49 43h2M35 42l-9-3M65 42l9-3"/></g>';
     var cheeks = calm ? '<circle cx="34" cy="51" r="4" fill="#f4a3a3" opacity=".5"/><circle cx="66" cy="51" r="4" fill="#f4a3a3" opacity=".5"/>' : "";
     var arm = calm
       ? '<g class="sip" style="--t:' + (o.mugT || 0) + 's"><path d="M84 112q14-6 10-30" stroke="' + o.shirt + '" stroke-width="13" stroke-linecap="round" fill="none"/>' +
@@ -146,7 +144,7 @@
     s += o.props || "";
     s += '<g transform="translate(288 108)" filter="url(#sh)">' + screen(calm ? o.calmTitle : o.messTitle, o.mood, ac) + '</g>';
     s += '<g transform="translate(320 236)"><rect width="96" height="9" rx="2.5" fill="' + P.kb + '" stroke="' + P.kbStroke + '" stroke-width=".8"/><path d="M5 3.5h86M5 6h86" stroke="' + P.kbStroke + '" stroke-width=".8" stroke-dasharray="3.5 1.5"/></g><ellipse cx="430" cy="240" rx="6" ry="4" fill="' + P.kb + '" stroke="' + P.kbStroke + '" stroke-width=".8"/>';
-    s += '<g transform="translate(212 120)">' + person({ shirt: o.shirt, beard: o.beard, kippa: o.kippa, glasses: o.glasses, mood: o.mood, mugT: o.mugT }) + '</g>';
+    s += '<g transform="translate(212 120)">' + person({ shirt: o.shirt, hair: o.hair, gc: o.gc, mood: o.mood, mugT: o.mugT }) + '</g>';
     if (!calm) {
       s += '<g transform="translate(466 206)"><circle class="rw" cx="13" cy="16" r="20" fill="none" stroke="#ef4444" stroke-width="2.5"/><circle class="rw w2" cx="13" cy="16" r="20" fill="none" stroke="#ef4444" stroke-width="2.5"/>' +
         '<g class="ringing"><rect width="26" height="38" rx="6" fill="#0b1220"/><rect x="2.5" y="3" width="21" height="30" rx="4" fill="#1e3a5f"/><rect x="5" y="9" width="16" height="5" rx="2" fill="#25d366"/><rect x="5" y="16" width="16" height="5" rx="2" fill="#60a5fa"/><rect x="5" y="23" width="16" height="5" rx="2" fill="#25d366"/></g>' +
@@ -162,22 +160,22 @@
 
   /* ---------- העסקים והשאלות ---------- */
   var biz = [
-    { id: "a", accent: "#16a34a", sign: "צימר", wall: "#f5eddf", floor: "#e0cfb3", shirt: "#f1f4f9", beard: "full", kippa: "black", badge: "12",
+    { id: "a", hair: "#4a3426", gc: "#2563eb", accent: "#16a34a", sign: "צימר", wall: "#f5eddf", floor: "#e0cfb3", shirt: "#f1f4f9", beard: "full", kippa: "black", badge: "12",
       signIcon: '<path d="M14 46l14-16 14 16z" fill="#7fb07c"/><rect x="19" y="41" width="18" height="10" fill="#c98b5b"/>',
       messTitle: "הזמנות - סופי סופי (3)", calmTitle: "הזמנות החודש",
       props: '<g transform="translate(436 214)"><path d="M0 0h24l-3 26H3z" fill="#fff" stroke="#9aa6b5" stroke-width="2"/><path d="M24 6q9 2 0 12" fill="none" stroke="#9aa6b5" stroke-width="2"/></g>',
       q: ["יש מקום בסופ\"ש?", "מה המחיר?", "שלחתי הודעה...", "תחזור אליי דחוף", "הזמנה כפולה!"] },
-    { id: "b", accent: "#2563eb", sign: "משכנתאות", wall: "#e9f0f7", floor: "#cdd8e4", shirt: "#dfe8f5", beard: "short", kippa: "black", glasses: 1, badge: "9",
+    { id: "b", hair: "#1c1c1c", gc: "#dc2626", accent: "#2563eb", sign: "משכנתאות", wall: "#e9f0f7", floor: "#cdd8e4", shirt: "#dfe8f5", beard: "short", kippa: "black", glasses: 1, badge: "9",
       signIcon: '<path d="M14 46l14-14 14 14v8H14z" fill="#2d699e"/><text x="28" y="51" text-anchor="middle" font-size="10" fill="#fff" font-weight="700">%</text>',
       messTitle: "תיקים - מעודכן (חדש)", calmTitle: "תיקי לקוחות",
       props: '<g transform="translate(430 216)"><rect width="30" height="28" rx="4" fill="#3d4a5c"/><rect x="5" y="4" width="20" height="7" fill="#b9e3c6"/><g fill="#cfd8e3"><rect x="5" y="14" width="5" height="4"/><rect x="12.5" y="14" width="5" height="4"/><rect x="20" y="14" width="5" height="4"/><rect x="5" y="20" width="5" height="4"/><rect x="12.5" y="20" width="5" height="4"/><rect x="20" y="20" width="5" height="4" fill="#f59e0b"/></g></g>',
       q: ["מה הסטטוס?", "שלחתי מסמכים", "מתי תהיה תשובה?", "תחזור אליי דחוף", "חסר מסמך!"] },
-    { id: "c", accent: "#db2777", sign: "עמותה", wall: "#f3eef8", floor: "#d9cfe4", shirt: "#f7f2e8", beard: "full", kippa: "knit", badge: "7",
+    { id: "c", hair: "#b45309", gc: "#16a34a", accent: "#db2777", sign: "עמותה", wall: "#f3eef8", floor: "#d9cfe4", shirt: "#f7f2e8", beard: "full", kippa: "knit", badge: "7",
       signIcon: '<path d="M28 50s-12-7-12-15a6 6 0 0 1 12-2 6 6 0 0 1 12 2c0 8-12 15-12 15z" fill="#e25b7a"/>',
       messTitle: "תרומות 2026 (סופי)", calmTitle: "תרומות וקבלות",
       props: '<g transform="translate(428 220)"><rect width="34" height="22" rx="3" fill="#f6d6a8" stroke="#c9a06a"/><path d="M0 0l17 12 17-12" fill="none" stroke="#c9a06a"/><rect x="6" y="-8" width="34" height="22" rx="3" fill="#fbe7c6" stroke="#c9a06a" transform="rotate(-8 23 3)"/></g>',
       q: ["קיבלתי קבלה?", "כמה נאסף?", "מי אחראי על זה?", "צריך דוח!", "קבלה כפולה!"] },
-    { id: "d", accent: "#0891b2", sign: "חנות", wall: "#eef6f1", floor: "#cfe1d6", shirt: "#e6f2ea", beard: "short", kippa: "black", badge: "15",
+    { id: "d", hair: "#7a4a22", gc: "#7c3aed", accent: "#0891b2", sign: "חנות", wall: "#eef6f1", floor: "#cfe1d6", shirt: "#e6f2ea", beard: "short", kippa: "black", badge: "15",
       signIcon: '<path d="M16 34h24l-3 18H19z" fill="#00a6b0"/><path d="M22 34v-4a6 6 0 0 1 12 0v4" fill="none" stroke="#00a6b0" stroke-width="2.5"/>',
       messTitle: "מלאי - ישן?", calmTitle: "מלאי והזמנות",
       props: '<g transform="translate(424 206)"><rect y="14" width="40" height="26" fill="#d4a373" stroke="#a7784a"/><rect x="8" width="30" height="16" fill="#e0b88a" stroke="#a7784a"/><path d="M20 14v26M23 0v16" stroke="#a7784a"/></g>',
