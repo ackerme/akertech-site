@@ -202,3 +202,7 @@ html.a11y-still .send-anim .env{display:none}
 .wa-text{color:#128c4a;font-weight:700;text-decoration:underline;text-underline-offset:3px}
 .wa-text:hover{color:#25d366}
 @media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .wa-text{color:#4ade80}}
+
+/* לוגו לקוח שהוא קישור */
+a.lg.client{cursor:pointer;transition:transform .2s,box-shadow .2s}
+a.lg.client:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(25,63,115,.18)}

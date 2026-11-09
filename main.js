@@ -88,7 +88,7 @@
       // משכפלים את הלוגואים עד שהשורה רחבה מהמסך, כדי שהתנועה תהיה רציפה
       var guard = 0;
       while (track.scrollWidth < vp.clientWidth * 2 && guard++ < 10)
-        originals.forEach(function (n) { var c = n.cloneNode(true); c.setAttribute("data-clone", ""); c.setAttribute("aria-hidden", "true"); track.appendChild(c); });
+        originals.forEach(function (n) { var c = n.cloneNode(true); c.setAttribute("data-clone", ""); c.setAttribute("aria-hidden", "true"); if (c.tagName === "A") c.setAttribute("tabindex", "-1"); track.appendChild(c); });
       running = true; raf = requestAnimationFrame(tick);
     }
     vp.addEventListener("mouseenter", function () { paused = true; });
