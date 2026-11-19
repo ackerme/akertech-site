@@ -145,3 +145,10 @@
     }
   });
 })();
+
+// מונה ביקורים: סופר פתיחת דף אחת. בלי עוגיות, ובלי שמירת כתובת IP (ראו מדיניות הפרטיות).
+(function () {
+  try {
+    if (navigator.sendBeacon) navigator.sendBeacon("https://b76ssnyi9g.execute-api.eu-central-1.amazonaws.com/hit/akertech", location.pathname);
+  } catch (e) { /* המונה לא משפיע על האתר */ }
+})();
